@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 import Home from "../pages/Home.vue";
 import Blog from "../pages/Blog.vue";
@@ -7,7 +7,7 @@ import About from "../pages/About.vue";
 import Contact from "../pages/Contact.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   scrollBehavior() {
     return { top: 0 };
   },
