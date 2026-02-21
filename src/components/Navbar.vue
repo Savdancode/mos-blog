@@ -31,7 +31,7 @@ watchEffect(() => {
     <div class="container nav">
       <router-link class="brand" to="/">
         <span class="dot" />
-        <span>GlassBlog</span>
+        <span>San Mos</span>
       </router-link>
 
       <nav class="links">
@@ -45,9 +45,7 @@ watchEffect(() => {
           {{ l.label }}
         </router-link>
 
-        <button class="pill" @click="emit('toggle-theme')">
-          {{ themeLabel }} Mode
-        </button>
+        <button class="pill" @click="emit('toggle-theme')">{{ themeLabel }} Mode</button>
       </nav>
 
       <button class="burger" @click="open = !open" aria-label="Open menu">
@@ -82,7 +80,7 @@ watchEffect(() => {
   top: 0;
   z-index: 40;
   padding: 14px 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.05), transparent);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -107,7 +105,7 @@ watchEffect(() => {
   height: 12px;
   border-radius: 999px;
   background: var(--primary);
-  box-shadow: 0 0 0 6px rgba(15,195,178,0.16);
+  box-shadow: 0 0 0 6px rgba(15, 195, 178, 0.16);
 }
 
 .links {
@@ -125,12 +123,12 @@ watchEffect(() => {
 }
 
 .link:hover {
-  background: rgba(15,195,178,0.12);
+  background: rgba(15, 195, 178, 0.12);
   color: var(--text);
 }
 
 .link.active {
-  background: rgba(15,195,178,0.18);
+  background: rgba(15, 195, 178, 0.18);
   color: var(--text);
   border: 1px solid var(--border);
 }
@@ -168,16 +166,23 @@ watchEffect(() => {
   border-radius: 2px;
 }
 
-.mobile { padding-top: 12px; }
-.panel { padding: 14px; }
+.mobile {
+  padding-top: 12px;
+}
+.panel {
+  padding: 14px;
+}
 
-.mobileLinks { display: grid; gap: 10px; }
+.mobileLinks {
+  display: grid;
+  gap: 10px;
+}
 
 .mLink {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: rgba(15,195,178,0.10);
+  background: rgba(15, 195, 178, 0.1);
   font-weight: 800;
 }
 
@@ -192,11 +197,22 @@ watchEffect(() => {
 }
 
 @media (max-width: 860px) {
-  .links { display: none; }
-  .burger { display: inline-block; }
+  .links {
+    display: none;
+  }
+  .burger {
+    display: inline-block;
+  }
 }
 
 /* transition */
-.slide-enter-active, .slide-leave-active { transition: all .18s ease; }
-.slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-8px); }
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.18s ease;
+}
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
 </style>
