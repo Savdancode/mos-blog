@@ -31,7 +31,7 @@ watchEffect(() => {
     <div class="container nav">
       <router-link class="brand" to="/">
         <span class="dot" />
-        <span>San Mos</span>
+        <span>Chamnes Notes</span>
       </router-link>
 
       <nav class="links">

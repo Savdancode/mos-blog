@@ -1,46 +1,34 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { fetchPosts } from "../services/api"; // Ensure this path matches your project
 import PostCard from "./PostCard.vue";
 
+// Update props to accept the blog data from the Home API
 const props = defineProps({
   limit: { type: Number, default: 3 },
+  blogs: { type: Array, default: () => [] },
 });
 
-const recent = ref([]);
-const loading = ref(true);
-
-onMounted(async () => {
-  try {
-    const data = await fetchPosts();
-    // Use slice to respect the 'limit' prop
-    recent.value = data.slice(0, props.limit);
-  } catch (error) {
-    console.error("Failed to fetch recent posts:", error);
-  } finally {
-    loading.value = false;
-  }
+// Since you want to limit it to 3 for the home page
+import { computed } from "vue";
+const displayedBlogs = computed(() => {
+  return props.blogs.slice(0, props.limit);
 });
 </script>
 
 <template>
   <section class="container section">
     <div class="top">
-      <h2>Recent Posts</h2>
+      <h2>Popular Posts</h2>
       <router-link class="more" to="/blog">View all →</router-link>
     </div>
 
-    <div v-if="loading" class="grid">
-      <p>Loading posts...</p>
-    </div>
-
-    <div v-else class="grid">
-      <PostCard v-for="p in recent" :key="p.id" :post="p" />
+    <div class="grid">
+      <PostCard v-for="p in displayedBlogs" :key="p.id" :post="p" />
     </div>
   </section>
 </template>
 
 <style scoped>
+/* Your existing styles are great for responsive layouts */
 .section {
   padding: 18px 0 0;
 }

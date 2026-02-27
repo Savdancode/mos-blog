@@ -14,7 +14,11 @@ const router = createRouter({
   routes: [
     { path: "/", name: "home", component: Home }, // 👈 THIS is important
     { path: "/blog", name: "blog", component: Blog },
-    { path: "/blog/:slug", name: "blog-detail", component: BlogDetail },
+    {
+      path: '/blog/:id',
+      name: 'BlogDetail',
+      component: () => import('../pages/BlogDetail.vue')
+    },
     { path: "/about", name: "about", component: About },
     { path: "/contact", name: "contact", component: Contact },
     { path: "/:pathMatch(.*)*", redirect: "/" },

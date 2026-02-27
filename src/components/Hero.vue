@@ -1,5 +1,6 @@
 <script setup>
 import GlassCard from "./GlassCard.vue";
+import PostCard from "../components/PostCard.vue";
 
 defineProps({
   data: Object,
@@ -11,13 +12,13 @@ defineProps({
     <div class="grid">
       <div class="left">
         <span class="badge">
-          {{ data?.tag }}
+          {{ data?.Tag }}
         </span>
         <h1 class="title">
           {{ data?.title }}
         </h1>
         <p class="desc">
-          {{ data?.description }}
+          {{ data?.shortDescription }}
         </p>
 
         <div class="actions">
@@ -32,24 +33,12 @@ defineProps({
           </div>
         </div>
       </div>
-
       <GlassCard class="right">
-        <div class="blob" />
         <div class="card">
-          <div class="miniTop">
-            <span class="pill">Hero Card</span>
-            <span class="pill muted">Glass</span>
-          </div>
-          <h3>Premium feel</h3>
+          <h3>{{ data?.slogan.title }}</h3>
           <p>
-            Subtle gradients, soft borders, and blur give you a “fancy app” vibe without
-            heavy libraries.
+            {{ data?.slogan.shortDescription }}
           </p>
-          <div class="miniRow">
-            <span class="chip">Typography</span>
-            <span class="chip">Depth</span>
-            <span class="chip">Motion</span>
-          </div>
         </div>
       </GlassCard>
     </div>
@@ -144,6 +133,7 @@ defineProps({
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.02);
   padding: 16px;
+  height: 100%;
 }
 
 .card h3 {
@@ -154,6 +144,13 @@ defineProps({
   margin: 0;
   color: var(--muted);
   line-height: 1.7;
+
+  /* The magic combo: */
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .miniTop {

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Navbar from "./components/Navbar.vue";
-import Footer from "./components/Footer.vue";
+
 
 const theme = ref("light");
 
@@ -26,9 +26,10 @@ onMounted(() => {
   <main class="fade-in">
     <router-view />
   </main>
-  <Footer />
 </template>
 
 <style>
-main { padding-bottom: 40px; }
+main {
+  padding-bottom: 40px;
+}
 </style>

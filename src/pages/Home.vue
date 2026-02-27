@@ -4,10 +4,14 @@ import RecentPosts from "../components/RecentPosts.vue";
 import GlassCard from "../components/GlassCard.vue";
 import { ref, onMounted } from "vue";
 import { fetchHome } from "../services/api";
+import PopularPosts from "../components/PopularPosts.vue";
+import Footer from "../components/Footer.vue";
 
 const home = ref(null);
 const loading = ref(true);
 const error = ref(null);
+var footerTitle = "";
+var footerDes = "";
 
 onMounted(async () => {
   console.log("HOME COMPONENT MOUNTED");
@@ -15,8 +19,11 @@ onMounted(async () => {
 
   try {
     const data = await fetchHome();
-    console.log("API RESPONSE:", data);
+
     home.value = data;
+    footerTitle = home.value.footerTitle;
+    footerDes = home.value.footerShortDes;
+    console.log(footerTitle + footerDes);
   } catch (err) {
     console.error("API ERROR:", err);
     error.value = "Failed to load home content";
@@ -28,23 +35,9 @@ onMounted(async () => {
 
 <template>
   <Hero v-if="home" :data="home" />
-
-  <section class="container mid">
-    <GlassCard class="strip">
-      <div class="row">
-        <div class="left">
-          <h2>Built for a clean portfolio vibe</h2>
-          <p>
-            Use this as your personal blog, developer blog, or product updates page. The
-            styling is already premium—just add your content.
-          </p>
-        </div>
-        <router-link class="btn" to="/about">About me</router-link>
-      </div>
-    </GlassCard>
-  </section>
-
+  <PopularPosts :limit="3" :blogs="home?.popular_blogs" />
   <RecentPosts :limit="3" />
+  <Footer :title="footerTitle" :description="footerDes" />
 </template>
 
 <style scoped>
