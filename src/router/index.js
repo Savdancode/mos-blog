@@ -1,18 +1,15 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router"; // 1. Change import
 
-import Home from "../pages/Home.vue";
-import Blog from "../pages/Blog.vue";
-import BlogDetail from "../pages/BlogDetail.vue";
-import About from "../pages/About.vue";
-import Contact from "../pages/Contact.vue";
+// ... imports remain the same
 
 const router = createRouter({
-  history: createWebHistory(), // ✅ use history for clean URL
+  // 2. Switch to Hash History and add your repo name as the base
+  history: createWebHashHistory('/mos-blog/'), 
   scrollBehavior() {
     return { top: 0 };
   },
   routes: [
-    { path: "/", name: "home", component: Home }, // 👈 THIS is important
+    { path: "/", name: "home", component: Home },
     { path: "/blog", name: "blog", component: Blog },
     {
       path: '/blog/:id',
