@@ -3,5 +3,5 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/',   // IMPORTANT for local dev
+  base: '/mos-blog/',   // IMPORTANT for local dev
 })
