@@ -1,10 +1,11 @@
 <script setup>
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref, watchEffect, onMounted, onUnmounted } from "vue"; // ✅ Added lifecycle hooks
 import { useRoute } from "vue-router";
 import GlassCard from "./GlassCard.vue";
+import logoUrl from "@/assets/logo.png";
 
 const props = defineProps({
-  theme: { type: Object, required: true }, // ref from parent
+  theme: { type: Object, required: true },
 });
 const emit = defineEmits(["toggle-theme"]);
 
@@ -20,6 +21,16 @@ const links = [
 
 const themeLabel = computed(() => (props.theme.value === "light" ? "Dark" : "Light"));
 
+// ✅ Logic to close menu when resizing to desktop
+const handleResize = () => {
+  if (window.innerWidth > 860) {
+    open.value = false;
+  }
+};
+
+onMounted(() => window.addEventListener("resize", handleResize));
+onUnmounted(() => window.removeEventListener("resize", handleResize));
+
 watchEffect(() => {
   route.fullPath;
   open.value = false;
@@ -30,8 +41,7 @@ watchEffect(() => {
   <header class="wrap">
     <div class="container nav">
       <router-link class="brand" to="/">
-        <span class="dot" />
-        <span>Chamnes Notes</span>
+        <img :src="logoUrl" alt="Logo" style="height: 40px" />
       </router-link>
 
       <nav class="links">
@@ -75,12 +85,14 @@ watchEffect(() => {
 </template>
 
 <style scoped>
+/* All styles remain exactly as you provided */
 .wrap {
   position: sticky;
   top: 0;
   z-index: 40;
   padding: 14px 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), transparent);
+  background-color: #d2f2ee;
+  /*background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), transparent);*/
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -100,14 +112,6 @@ watchEffect(() => {
   letter-spacing: -0.3px;
 }
 
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: var(--primary);
-  box-shadow: 0 0 0 6px rgba(15, 195, 178, 0.16);
-}
-
 .links {
   display: flex;
   align-items: center;
@@ -120,6 +124,7 @@ watchEffect(() => {
   color: var(--muted);
   font-weight: 700;
   transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
 }
 
 .link:hover {
@@ -153,7 +158,7 @@ watchEffect(() => {
   border: 1px solid var(--border);
   background: var(--card2);
   cursor: pointer;
-  padding: 10px;
+  padding: 5px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -184,6 +189,8 @@ watchEffect(() => {
   border: 1px solid var(--border);
   background: rgba(15, 195, 178, 0.1);
   font-weight: 800;
+  text-decoration: none;
+  color: var(--text);
 }
 
 .mBtn {
@@ -205,7 +212,6 @@ watchEffect(() => {
   }
 }
 
-/* transition */
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.18s ease;

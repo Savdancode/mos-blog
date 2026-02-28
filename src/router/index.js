@@ -1,10 +1,14 @@
-import { createRouter, createWebHashHistory } from "vue-router"; // 1. Change import
+import { createRouter, createWebHashHistory } from "vue-router";
 
-// ... imports remain the same
+// ✅ ADD THESE IMPORTS AT THE TOP
+import Home from "../pages/Home.vue";
+import Blog from "../pages/Blog.vue";
+import About from "../pages/About.vue";
+import Contact from "../pages/Contact.vue";
 
 const router = createRouter({
-  // 2. Switch to Hash History and add your repo name as the base
-  history: createWebHashHistory('/mos-blog/'), 
+  // Use hash history for easy GitHub Pages deployment
+  history: createWebHashHistory("mos-blog"), 
   scrollBehavior() {
     return { top: 0 };
   },
@@ -14,6 +18,7 @@ const router = createRouter({
     {
       path: '/blog/:id',
       name: 'BlogDetail',
+      // Lazy loading this one is fine
       component: () => import('../pages/BlogDetail.vue')
     },
     { path: "/about", name: "about", component: About },

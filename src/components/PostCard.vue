@@ -24,7 +24,7 @@ const getExcerpt = (content) => {
         class="cover"
         :style="{
           backgroundImage: `url(${
-            post.image?.[0]?.url ? STRAPI_URL + post.image[0].url : '/placeholder.jpg'
+            post.image?.[0]?.url ? post.image[0].url : '/placeholder.jpg'
           })`,
         }"
       />
