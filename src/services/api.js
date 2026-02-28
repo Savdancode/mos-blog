@@ -17,13 +17,47 @@ export async function request(endpoint) {
 
 /* POSTS */
 
-// Fetches all posts sorted by newest first
-export async function fetchPosts() {
-  const json = await request("/blogs?populate[0]=image&populate[1]=categorie_posts&sort[0]=createdAt:desc");
+// src/services/api.js
+export async function fetchPosts(category = "All", search = "", page = 1, pageSize = 6) {
+  let url = `/blogs?populate[0]=image&populate[1]=categorie_posts&sort[0]=createdAt:desc`;
+  
+  // ✅ Add Pagination parameters
+  url += `&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+
+  if (category !== "All") {
+    url += `&filters[categorie_posts][title][$eq]=${category}`;
+  }
+  if (search) {
+    url += `&filters[title][$containsi]=${search}`;
+  }
+
+  const json = await request(url);
+  // ✅ Return the full JSON so the component can read meta.pagination
+  return json; 
+}
+// export async function fetchPosts(category = "All", search = "") {
+//   let url = "/blogs?populate[0]=image&populate[1]=categorie_posts&sort[0]=createdAt:desc";
+
+//   // ✅ Add Category Filter
+//   if (category !== "All") {
+//     url += `&filters[categorie_posts][title][$eq]=${category}`;
+//   }
+
+//   // ✅ Add Search Filter (filters by title)
+//   if (search) {
+//     url += `&filters[title][$containsi]=${search}`;
+//   }
+
+//   const json = await request(url);
+//   return json.data;
+// }
+
+
+export async function fetchCate() {
+  const json = await request("/categorie-posts");
   return json.data;
 }
 
-// FIXED: Changed from fetchPostBySlug to fetchPostById
 // This matches your router-link :to="/blog/${post.documentId}"
 export async function fetchPostById(id) {
   const json = await request(`/blogs/${id}?populate=*`);

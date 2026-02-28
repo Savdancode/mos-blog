@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { fetchPosts } from "../services/api"; // Ensure this path matches your project
+import { fetchPosts } from "../services/api";
 import PostCard from "./PostCard.vue";
 
 const props = defineProps({
@@ -12,9 +12,20 @@ const loading = ref(true);
 
 onMounted(async () => {
   try {
-    const data = await fetchPosts();
-    // Use slice to respect the 'limit' prop
-    recent.value = data.slice(0, props.limit);
+    loading.value = true;
+
+    // ✅ Call fetchPosts with "All" to ensure it gets everything for the homepage
+    const response = await fetchPosts("All");
+
+    // ✅ Based on your JSON, 'response' IS the array now because your api.js returns 'json.data'
+    if (response && Array.isArray(response)) {
+      recent.value = response.slice(0, props.limit);
+    } else if (response && response.data) {
+      // Fallback in case your api.js is still returning the full object
+      recent.value = response.data.slice(0, props.limit);
+    }
+
+    console.log("Recent posts in component:", recent.value);
   } catch (error) {
     console.error("Failed to fetch recent posts:", error);
   } finally {
