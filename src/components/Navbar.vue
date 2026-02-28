@@ -1,11 +1,12 @@
 <script setup>
-import { computed, ref, watchEffect, onMounted, onUnmounted } from "vue"; // ✅ Added lifecycle hooks
+import { computed, ref, watchEffect, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import GlassCard from "./GlassCard.vue";
 import logoUrl from "@/assets/logo.png";
 
 const props = defineProps({
-  theme: { type: Object, required: true },
+  // ✅ Fixed: Changed Object to String to match your 'light'/'dark' values
+  theme: { type: String, required: true },
 });
 const emit = defineEmits(["toggle-theme"]);
 
@@ -19,9 +20,9 @@ const links = [
   { to: "/contact", label: "Contact" },
 ];
 
-const themeLabel = computed(() => (props.theme.value === "light" ? "Dark" : "Light"));
+// ✅ Updated: Accessing theme directly since it is now a String
+const themeLabel = computed(() => (props.theme === "light" ? "Dark" : "Light"));
 
-// ✅ Logic to close menu when resizing to desktop
 const handleResize = () => {
   if (window.innerWidth > 860) {
     open.value = false;
@@ -85,16 +86,18 @@ watchEffect(() => {
 </template>
 
 <style scoped>
-/* All styles remain exactly as you provided */
 .wrap {
   position: sticky;
   top: 0;
   z-index: 40;
   padding: 14px 0;
-  background-color: #d2f2ee;
-  /*background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), transparent);*/
+  /* ✅ FIX: Removed #d2f2ee. Using var(--bg) ensures it turns dark in dark mode */
+  background-color: var(--bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  /* Added a transition for a smoother theme switch */
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid var(--border);
 }
 
 .nav {
